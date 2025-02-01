@@ -20,6 +20,10 @@ All three applications produce live charts to illustrate the data.
 Before starting, ensure you have completed the setup tasks in <https://github.com/denisecase/buzzline-01-case> and <https://github.com/denisecase/buzzline-02-case> first. 
 Python 3.11 is required. 
 
+```shell
+Task 1: Competed
+```
+
 ## Task 2. Copy This Example Project and Rename
 
 Once the tools are installed, copy/fork this project into your GitHub account
