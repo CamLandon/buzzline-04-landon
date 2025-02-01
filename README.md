@@ -34,6 +34,9 @@ OR: For more practice, add these example scripts or features to your earlier pro
 You'll want to check requirements.txt, .env, and the consumers, producers, and util folders. 
 Use your README.md to record your workflow and commands. 
     
+```shell
+Task 2: Competed
+```
 
 ## Task 3. Manage Local Project Virtual Environment
 
@@ -41,6 +44,10 @@ Follow the instructions in [MANAGE-VENV.md](https://github.com/denisecase/buzzli
 1. Create your .venv
 2. Activate .venv
 3. Install the required dependencies using requirements.txt.
+
+```shell
+Task 3: Competed
+```
 
 ## Task 4. Start Zookeeper and Kafka (2 Terminals)
 
