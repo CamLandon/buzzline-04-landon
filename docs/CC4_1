@@ -1,0 +1,88 @@
+## Task 1. Read
+First, read and explore to gain background on live charting. 
+
+1. Live Graphs with Matplotlib (Links to an external site.and watch the video)
+2. Review the Matplotlib website at https://matplotlib.org/Links to an external site. This is a key visualization library for Python. The more you know, the more you can do. 
+3. Read about Matplotlib animations at https://matplotlib.org/stable/users/explain/animations/animations.html#animationsLinks to an external site.
+
+```shell
+CL: 
+```
+
+## Task 2. Copy the Example Repo & Rename It
+1. Check out this module's starter project at https://github.com/denisecase/buzzline-04-case
+2. Copy the repo into your own GitHub account (click "Use this template").
+3. IMPORTANT: Change the repo name by replacing case with yourname (or something unique to you). 
+In the example project, we add visualizations to help gain actionable insights in our consumers. We care about: which author is publishing the most buzz messages AND when a rising smoker temperature stalls.
+
+ - The JSON (buzzline) consumer will use a bar chart showing the count of buzz messages issued by that author in real time.
+ - The CSV (smart BBQ smoker) application will add a line chart of the food temperature as it rises to help detect a stall. 
+
+```shell
+CL: 
+``` 
+
+## Task 3. Explore
+1. Explore the project organization and files.
+```shell
+CL: 
+```
+2. What things the same as the prior project(s)?
+```shell
+CL: 
+```
+3. What things are different from the prior project?
+```shell
+CL: 
+```   
+4. What things are new?
+```shell
+CL: 
+```   
+5. Are visualizations be added to producers or consumers:
+```shell
+CL: 
+```   
+6. Why is that: 
+```shell
+CL: 
+```   
+ 
+```shell
+CL: 
+``` 
+## Task 4. Think Ahead: Custom Streaming App
+In this course, you will create your own streaming app with at least one producer and at least one consumer. What data attributes are needed? Will you stream from a file - or generate fake data (start with one of these - do NOT start with an API unless you have already successfully performed a request).
+
+1. What attributes are in each message?
+```shell
+CL: 
+```   
+2. What live data matters most?
+```shell
+CL: 
+```   
+3. Do you want to compare / aggregate?
+```shell
+CL: 
+```   
+4. Do you want to show a trend?
+```shell
+CL: 
+```   
+5. What events are critical to your application:
+```shell
+CL: 
+```   
+6. What chart type would be useful: 
+```shell
+CL: 
+```   
+ 
+```shell
+CL: 
+```
+
+These are the key questions for an analyst - what information matters, what processing is required, and which visualizations best support actionable insights? We have AI tools that will help generate the process code and charts we specify. Develop your ability to specify useful things. 
+
+Please do not delegate analyst-level reflection questions to an AI assistant. These are questions for human-level intelligence and why we get hired.
