@@ -116,6 +116,9 @@ When done, remember to kill the associated terminals for the producer and consum
 
 
 ---
+```shell
+Task 5: Competed
+```
 
 ## Task 6. Start a (Kafka-based) JSON Streaming Application
 
@@ -148,6 +151,9 @@ What new functions/features must be added to work with a Kafka-based streaming s
 When done, remember to kill the associated terminals for the producer and consumer. 
 
 ---
+```shell
+Task 6: Competed
+```
 
 ## Task 7. Start a (Kafka-based) CSV Streaming Application
 

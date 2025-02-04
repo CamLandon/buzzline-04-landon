@@ -1,0 +1,12 @@
+{"message": "I just shared JavaScript! It was funny.", "author": "Charlie", "timestamp": "2025-02-03 21:56:15", "category": "tech", "sentiment": 0.44, "keyword_mentioned": "JavaScript", "message_length": 39}
+{"message": "I just found a story! It was exciting.", "author": "Eve", "timestamp": "2025-02-03 21:56:21", "category": "other", "sentiment": 0.04, "keyword_mentioned": "other", "message_length": 38}
+{"message": "I just loved a meme! It was boring.", "author": "Charlie", "timestamp": "2025-02-03 21:56:26", "category": "humor", "sentiment": 0.97, "keyword_mentioned": "meme", "message_length": 35}
+{"message": "I just saw recipe! It was amazing.", "author": "Eve", "timestamp": "2025-02-03 21:56:31", "category": "food", "sentiment": 0.63, "keyword_mentioned": "recipe", "message_length": 34}
+{"message": "I just found a trick! It was funny.", "author": "Charlie", "timestamp": "2025-02-03 21:56:36", "category": "other", "sentiment": 0.04, "keyword_mentioned": "other", "message_length": 35}
+{"message": "I just loved recipe! It was funny.", "author": "Charlie", "timestamp": "2025-02-03 21:56:41", "category": "food", "sentiment": 0.47, "keyword_mentioned": "recipe", "message_length": 34}
+{"message": "I just saw a story! It was exciting.", "author": "Bob", "timestamp": "2025-02-03 21:56:46", "category": "other", "sentiment": 0.94, "keyword_mentioned": "other", "message_length": 36}
+{"message": "I just shared recipe! It was exciting.", "author": "Alice", "timestamp": "2025-02-03 21:56:51", "category": "food", "sentiment": 0.23, "keyword_mentioned": "recipe", "message_length": 38}
+{"message": "I just saw Python! It was boring.", "author": "Bob", "timestamp": "2025-02-03 21:56:56", "category": "tech", "sentiment": 0.12, "keyword_mentioned": "Python", "message_length": 33}
+{"message": "I just found a movie! It was funny.", "author": "Bob", "timestamp": "2025-02-03 21:57:01", "category": "entertainment", "sentiment": 0.78, "keyword_mentioned": "movie", "message_length": 35}
+{"message": "I just saw Python! It was weird.", "author": "Eve", "timestamp": "2025-02-03 21:57:06", "category": "tech", "sentiment": 0.48, "keyword_mentioned": "Python", "message_length": 32}
+{"message": "I just saw a story! It was amazing.", "author": "Eve", "timestamp": "2025-02-03 21:57:11", "category": "other", "sentiment": 0.22, "keyword_mentioned": "other", "message_length": 35}
