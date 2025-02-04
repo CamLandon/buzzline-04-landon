@@ -57,7 +57,9 @@ See instructions at [SETUP-KAFKA.md] to:
 1. Start Zookeeper Service ([link](https://github.com/denisecase/buzzline-02-case/blob/main/docs/SETUP-KAFKA.md#step-7-start-zookeeper-service-terminal-1))
 2. Start Kafka ([link](https://github.com/denisecase/buzzline-02-case/blob/main/docs/SETUP-KAFKA.md#step-8-start-kafka-terminal-2))
 
----
+```shell
+Task 4: Competed
+```
 
 ## Task 5. Start a Basic (File-based, not Kafka) Streaming Application
 
