@@ -171,6 +171,10 @@ For each one, you will need to:
    - Look in the producers folder for csv_producer_case.
    - Look in the consumers folder for csv_consumer_case.
 
+```shell
+Task 7: Competed
+```
+
 ### Review the Application Code
 
 Review the code for both the producer and the consumer. 
@@ -190,7 +194,7 @@ When done, remember to kill the associated terminals for the producer and consum
 ## Possible Explorations
 
 - JSON: Process messages in batches of 5 messages.
-- JSON:Limit the display to the top 3 authors.
+- JSON: Limit the display to the top 3 authors.
 - Modify chart appearance.
 - Stream a different set of data and visualize the custom stream with an appropriate chart. 
 - How do we find out what types of charts are available? 
