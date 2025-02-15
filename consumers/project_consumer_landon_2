@@ -1,7 +1,7 @@
 """
 project_consumer_avg_sentiment.py
 
-Consumes JSON messages from a Kafka topic (or file) and visualizes the average sentiment rating over time using a real-time line chart.
+Consumes JSON messages from a Kafka topic (or file) and visualizes the average sentiment score for each category over time using a real-time line chart.
 """
 
 #####################################
@@ -12,7 +12,7 @@ import os
 import json
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from collections import deque
+from collections import defaultdict, deque
 from kafka import KafkaConsumer  # Uncomment if using Kafka
 
 # Choose source: 'file' or 'kafka'
@@ -29,19 +29,20 @@ KAFKA_SERVER = "localhost:9092"
 # Rolling window size
 WINDOW_SIZE = 20
 
-# Store last 20 sentiment values
+# Store sentiment values for each category
 timestamps = deque(maxlen=WINDOW_SIZE)
-sentiments = deque(maxlen=WINDOW_SIZE)
+category_sentiments = defaultdict(lambda: deque(maxlen=WINDOW_SIZE))
+category_counts = defaultdict(lambda: deque(maxlen=WINDOW_SIZE))
 
 # Set up plot
 fig, ax = plt.subplots()
 ax.set_ylim(0, 1)  # Sentiment ranges from 0 to 1
 ax.set_xlim(0, WINDOW_SIZE)
-ax.set_title("Cameron Landon: Average Sentiment Rating Over Time")
+ax.set_title("Average Sentiment Score per Category Over Time")
 ax.set_xlabel("Message Index")
 ax.set_ylabel("Average Sentiment")
 
-sentiment_line, = ax.plot([], [], label="Avg Sentiment", color="blue")
+category_lines = {}
 ax.legend()
 
 # Read data (Kafka or File)
@@ -63,17 +64,37 @@ def get_messages():
 def update(frame):
     try:
         message = next(data_stream)  # Get next message
+        category = message.get("category", "unknown")
         sentiment = message.get("sentiment", 0)
         timestamps.append(len(timestamps))  # Just using an index for x-axis
-        sentiments.append(sentiment)
         
-        sentiments_list = list(sentiments)  # Convert deque to list
-        avg_sentiments = [sum(sentiments_list[:i+1]) / (i+1) for i in range(len(sentiments_list))]
+        # Ensure category is initialized
+        if category not in category_sentiments:
+            category_sentiments[category] = deque([0] * WINDOW_SIZE, maxlen=WINDOW_SIZE)
+            category_counts[category] = deque([0] * WINDOW_SIZE, maxlen=WINDOW_SIZE)
 
-        
-        # Update plot
-        sentiment_line.set_data(list(timestamps), avg_sentiments)
+        # Update sentiment and count for the category
+        category_sentiments[category].append(category_sentiments[category][-1] + sentiment)
+        category_counts[category].append(category_counts[category][-1] + 1)
+
+        # Compute average sentiment for each category
+        avg_sentiments = {}
+        for cat in category_sentiments:
+            avg_sentiments[cat] = [category_sentiments[cat][i] / category_counts[cat][i] if category_counts[cat][i] > 0 else 0 
+                                   for i in range(len(category_sentiments[cat]))]
+
+        # Clear and update plot
+        ax.clear()
+        ax.set_title("Average Sentiment Score per Category Over Time")
+        ax.set_xlabel("Message Index")
+        ax.set_ylabel("Average Sentiment")
         ax.set_xlim(max(0, len(timestamps) - WINDOW_SIZE), len(timestamps))
+
+        for cat, avg_vals in avg_sentiments.items():
+            if len(timestamps) == len(avg_vals):
+                ax.plot(list(timestamps), avg_vals, label=cat)
+        
+        ax.legend()
     
     except StopIteration:
         pass  # No more data
