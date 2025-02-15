@@ -1,132 +1,93 @@
-# requirements.txt - list all the packages the project needs
-# Ignore hashes (#) - they are just used to create comments.
-# Hashes will be ignored when we install packages using this file. 
+"""
+project_consumer_sentiment.py
 
-# ======================================================
-# STEP A - CREATE A LOCAL PROJECT VIRTUAL ENV (.venv)
-# ======================================================
+Consumes JSON messages from a Kafka topic (or file) and visually compares
+sentiment over time between the food and humor categories in real-time using a dual-line chart.
+"""
 
-# Create your local project virtual environment
-# This step ensures you have an isolated Python environment for your project.
-# This is typically just done once at the beginning of a project.
-# If it gets messed up, we can delete .venv and recreate it at any time. 
+#####################################
+# Import Modules
+#####################################
 
-# Run the following command to create a virtual environment in the project root.
-### On Windows, Use PowerShell (not cmd) - don't include the #:
-# py -3.11 -m venv .venv
+import os
+import json
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from collections import deque
+from kafka import KafkaConsumer  # Uncomment if using Kafka
 
-### On Mac/Linux, Use zsh or bash (or PowerShell) - don't include the #:
-# python3 -3.11 -m venv .venv
+# Choose source: 'file' or 'kafka'
+SOURCE = 'file'  # Change to 'kafka' if using Kafka
 
-### If VS Code asks: We noticed a new environment has been created. 
-# Do you want to select it for the workspace folder?
-# Click Yes. 
+# File path if using file-based streaming
+DATA_FILE = "../data/project_live.json"
 
-# ======================================================
-# STEP B - ALWAYS ACTIVATE THE (.venv) WHEN OPENING A NEW TERMINAL
-# ======================================================
+# Kafka settings
+KAFKA_TOPIC = "buzzline-topic"
+KAFKA_SERVER = "localhost:9092"
 
-# ALWAYS activate the .venv before working on the project.
-# Activate whenever you open a new terminal. 
+# Rolling window size
+WINDOW_SIZE = 20
 
-### Windows PowerShell Command (don't include the #):
-# .\.venv\Scripts\activate
+# Store last 20 sentiment values for food & humor
+food_sentiment = deque(maxlen=WINDOW_SIZE)
+humor_sentiment = deque(maxlen=WINDOW_SIZE)
+timestamps = deque(maxlen=WINDOW_SIZE)
 
-### Mac/Linux Command (don't include the #):
-# source .venv/bin/activate
+# Set up plot
+fig, ax = plt.subplots()
+ax.set_ylim(0, 1)  # Sentiment ranges from 0 to 1
+ax.set_xlim(0, WINDOW_SIZE)
+ax.set_title("Sentiment Over Time (Food vs Humor)")
+ax.set_xlabel("Message Index")
+ax.set_ylabel("Sentiment Score")
 
-# Verify: When active, you can usually see (.venv) in the terminal.
+food_line, = ax.plot([], [], label="Food Sentiment", color="blue")
+humor_line, = ax.plot([], [], label="Humor Sentiment", color="red")
+ax.legend()
 
-# If using a Jupyter notebook, select the kernel associated with your project (.venv).
+# Read data (Kafka or File)
+def get_messages():
+    if SOURCE == "kafka":
+        consumer = KafkaConsumer(
+            KAFKA_TOPIC,
+            bootstrap_servers=KAFKA_SERVER,
+            value_deserializer=lambda x: json.loads(x.decode("utf-8"))
+        )
+        for message in consumer:
+            yield message.value
+    else:  # Read from file
+        with open(DATA_FILE, "r") as f:
+            for line in f:
+                yield json.loads(line.strip())
 
-# ======================================================
-# STEP C - INSTALL PACKAGES INTO (.venv) AS NEEDED
-# ======================================================
+# Update function for animation
+def update(frame):
+    try:
+        message = next(data_stream)  # Get next message
+        category = message.get("category", "")
+        sentiment = message.get("sentiment", 0)
+        timestamp = message.get("timestamp", "")
 
-# Install necessary packages listed below with this command:
-# Keep packages updated with the most recent versions.
+        if category == "food":
+            food_sentiment.append(sentiment)
+        elif category == "humor":
+            humor_sentiment.append(sentiment)
 
-# When you identify a new package you want to use, 
-# Just update the list below and re-run this command. 
+        timestamps.append(len(timestamps))  # Just using an index for x-axis
 
-### Windows Command (don't include the #):
-# py -m pip install --upgrade pip setuptools wheel
-# py -m pip install -r requirements.txt
+        # Update plots
+        food_line.set_data(list(timestamps), list(food_sentiment))
+        humor_line.set_data(list(timestamps), list(humor_sentiment))
 
-### Mac/Linux Command (don't include the #):
-# python3 -m pip install --upgrade pip setuptools wheel
-# python3 -m pip install --upgrade -r requirements.txt
+        ax.set_xlim(max(0, len(timestamps) - WINDOW_SIZE), len(timestamps))  # Scrolls x-axis dynamically
 
-# When you identify a new package you want to use, 
-# Just update the list below and re-run the install command. 
+    except StopIteration:
+        pass  # No more data
 
-# ======================================================
-# VS CODE: Select Interpreter
-# ======================================================
-# VS Code needs our populated .venv to interpret our files correctly.
-# To set the VS Code Interpreter:
-# 1. Open the Command Palette: Press Ctrl+Shift+P (Windows/Linux) or Cmd+Shift+P (Mac).
-# 2. Search for "Python: Select Interpreter":
-# 3. Type Python: Select Interpreter in the Command Palette search bar and select it from the dropdown.
-# 4. Choose an Interpreter - A list of available Python environments will appear.
-#    Look for the local .venv option.
-# 5. Once selected, check the Python version displayed 
-#    in the bottom-left corner of the VS Code window in the status bar.
+# Start data stream
+data_stream = get_messages()
 
-# ======================================================
-# ESSENTIAL TOOLS
-# ======================================================
-
-# Up-to-date package management tools
-pip
-setuptools
-wheel
-
-# Easy logging for monitoring code execution
-loguru
-
-# Environment variables management
-python-dotenv
-
-# ======================================================
-# DATA ANALYSIS 
-# ======================================================
-
-# Numerical computations and arrays (20-30 MB)
-numpy
-
-# Data manipulation and analysis (built on numpy, 10-20 MB)
-pandas
-
-# ======================================================
-# VISUALIZATION
-# ======================================================
-
-# Core library for creating visualizations (~30 MB)
-matplotlib
-
-# Statistical data visualization library built on matplotlib (~2-5 MB)
-seaborn
-
-# Interactive plotting library, often used with Shiny apps (~20-25 MB)
-#plotly
-
-# ======================================================
-# GUI BACKEND FOR MATPLOTLIB ANIMATIONS (macOS/Linux only)
-# ======================================================
-
-# Qt-based GUI framework for interactive plotting and animations (~50-60 MB)
-PyQt6; sys_platform != "win32"
-
-# ======================================================
-# KAFKA MESSAGE BROKER INTEGRATION
-# ======================================================
-
-# Apache Kafka Python client (six was removed so add it separately)
-kafka-python
-six
-
-# Alternative: pin the older version.
-# If you want to use the older version of kafka-python,
-# comment out the two lines above and uncomment the line below.
-#kafka-python==2.0.2
+# Animate
+ani = animation.FuncAnimation(fig, update, interval=1000)
+plt.show()
